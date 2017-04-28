@@ -9,7 +9,7 @@ Meteor.subscribe('allHistory');
 
 Template.userDetails.helpers({
   user: function() {  
-    var data = ProteinData.findOne();
+    var data = ProteinData.findOne({userId: Meteor.userId()});
     if(!data) {
       data = { userId : Meteor.userId(),
       total:0,
@@ -23,7 +23,8 @@ Template.userDetails.helpers({
 
 Template.history.helpers({
   historyItem: function () {
-    return History.find({}, {sort:{ date:-1}, limit: 5});
+    //return History.find({}, {sort:{ date:-1}, limit: 5});
+    return UserHistory.find();
   }
 });
 
@@ -33,10 +34,10 @@ Template.userDetails.events({
 
     var amount = parseInt($('#amount').val());
     ProteinData.update(this._id, {$inc: {total : amount}}); 
-    History.insert({
+    UserHistory.insert({
       value: amount,
       date: new Date().toTimeString(),
-      userID: this.userId
+      userId: Meteor.userId()
     });
   }
 });

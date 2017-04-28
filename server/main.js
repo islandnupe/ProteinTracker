@@ -5,7 +5,7 @@ Meteor.publish('allProteinData', function() {
 });
 
 Meteor.publish('allHistory', function() {
-  return History.find({userId: this.userId});
+  return UserHistory.find({userId: this.userId});
 });
 
 Meteor.startup(() => {
